@@ -10,7 +10,8 @@ from __future__ import unicode_literals
 from indico.modules.events.controllers.admin import (RHCreateEventLabel, RHCreateReferenceType, RHDeleteEventLabel,
                                                      RHDeleteReferenceType, RHEditEventLabel, RHEditReferenceType,
                                                      RHEventLabels, RHReferenceTypes)
-from indico.modules.events.controllers.creation import RHCreateEvent
+from indico.modules.events.controllers.creation import RHCreateEvent, RHCreateEventUUID
+from indico.modules.events.controllers.preparation import RHPrepareEvent
 from indico.modules.events.controllers.display import RHEventAccessKey, RHEventMarcXML, RHExportEventICAL
 from indico.modules.events.controllers.entry import event_or_shorturl
 from indico.web.flask.util import make_compat_redirect_func, redirect_view
@@ -42,6 +43,12 @@ _bp.add_url_rule('/event/<confId>/event.ics', 'export_event_ical', RHExportEvent
 
 # Creation
 _bp.add_url_rule('/event/create/<any(lecture,meeting,conference):event_type>', 'create', RHCreateEvent,
+                 methods=('GET', 'POST'))
+_bp.add_url_rule('/event/create/test', 'create_uuid', RHCreateEventUUID,
+                 methods=('GET',))
+
+# Preparation
+_bp.add_url_rule('/event/prepare', 'prepare', RHPrepareEvent,
                  methods=('GET', 'POST'))
 
 # Main entry points supporting shortcut URLs
